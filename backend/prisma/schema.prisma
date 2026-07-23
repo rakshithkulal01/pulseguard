@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//Addinf enums to make db more consistent
+
+enum Prediction {
+  NORMAL
+  MI
+}
+
+enum RiskLevel {
+  LOW
+  MODERATE
+  HIGH
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum BloodGroup {
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
+  O_POSITIVE
+  O_NEGATIVE
+}
+
+enum SessionStatus {
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+//database creation
+
+model Account {
+  id              String   @id @default(uuid())
+  supabaseUserId  String   @unique
+  email           String   @unique
+  fullName        String
+  profilePicture  String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  profiles        PatientProfile[]
+}
+
+//PatientProfile
+
+model PatientProfile {
+
+  @@index([accountId])
+
+  id          String   @id @default(uuid())
+
+  accountId   String
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  fullName    String
+  age         Int
+  gender      Gender
+  bloodGroup  BloodGroup
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sessions    ECGSession[]
+}
+
+//ECG sessions of each patient
+
+model ECGSession {
+  @@index([profileId])
+
+  id              String   @id @default(uuid())
+
+  profileId       String
+  profile         PatientProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  prediction      Prediction?
+  confidence      Float?
+  riskLevel       RiskLevel?
+  heartRate       Int?
+
+  summary         String? @db.Text
+
+  keyFindings     Json?
+
+  ecgFileUrl      String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  duration        Int
+
+  report          Report?
+
+  status          SessionStatus @default(PROCESSING)
+}
+
+//Report generation
+
+model Report {
+  id            String @id @default(uuid())
+
+  ecgSessionId  String @unique
+  ecgSession    ECGSession @relation(fields: [ecgSessionId], references: [id], onDelete: Cascade)
+
+  pdfUrl       String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
