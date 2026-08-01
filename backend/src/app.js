@@ -4,8 +4,10 @@ import helmet from "helmet";
 import morgan from "morgan";
 import prisma from "./config/prisma.js";
 import profileRoutes from "./routes/profile.routes.js";
-
-
+import ecgRoutes from "./routes/ecg.routes.js";
+import AppError from "./utils/AppError.js";
+import STATUS_CODES from "./constants/statusCodes.js";
+import errorHandler from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -14,9 +16,10 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(errorHandler);
-app.use("/api/profiles", profileRoutes);
 
+app.use("/api/profiles", profileRoutes);
+app.use("/api/ecg", ecgRoutes);
+app.use(errorHandler);
 // Health Check Route
 app.get("/health", async (req, res) => {
   try {

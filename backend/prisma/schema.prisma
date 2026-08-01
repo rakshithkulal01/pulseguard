@@ -98,7 +98,7 @@ model ECGSession {
   summary         String? @db.Text
 
   keyFindings     Json?
-
+  rawSamples      Json?
   ecgFileUrl      String?
 
   createdAt       DateTime @default(now())
