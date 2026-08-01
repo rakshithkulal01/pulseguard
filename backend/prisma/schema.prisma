@@ -103,7 +103,7 @@ model ECGSession {
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-
+  processedAt     DateTime?
   duration        Int
 
   report          Report?
