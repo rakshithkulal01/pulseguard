@@ -16,6 +16,6 @@ export const processECGSchema = z.object({
 
     samples: z
         .array(z.number())
-        .min(10, "Minimum 100 ECG samples required")
+        .min(10, "Minimum 10 ECG samples required")
 
 });

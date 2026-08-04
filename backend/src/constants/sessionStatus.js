@@ -1,0 +1,7 @@
+const SESSION_STATUS = {
+    PROCESSING: "PROCESSING",
+    COMPLETED: "COMPLETED",
+    FAILED: "FAILED"
+};
+
+export default SESSION_STATUS;

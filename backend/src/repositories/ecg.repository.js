@@ -19,6 +19,10 @@ export const getSessionById = async (id) => {
     return prisma.eCGSession.findUnique({
         where: {
             id
+        },
+        include: {
+            report: true,
+            profile: true
         }
     });
 };
@@ -30,6 +34,17 @@ export const getHistory = async (profileId) => {
         },
         orderBy: {
             createdAt: "desc"
+        },
+        include: {
+            report: true
+        }
+    });
+};
+
+export const deleteSession = async (id) => {
+    return prisma.eCGSession.delete({
+        where: {
+            id
         }
     });
 };
