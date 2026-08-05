@@ -2,7 +2,7 @@ import serial
 import pandas as pd
 import time
 
-PORT = "COM6"      # Change according to your Arduino
+PORT = "COM5"      # Change according to your Arduino
 BAUD = 115200
 
 ser = serial.Serial(PORT, BAUD)
@@ -13,7 +13,7 @@ samples = []
 
 start = time.time()
 
-DURATION = 30      # seconds
+DURATION = 60      # seconds
 
 while time.time() - start < DURATION:
 
