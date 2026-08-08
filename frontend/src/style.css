@@ -1,0 +1,763 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  background: #ffffff;
+  color: #111d3d;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+
+  background:
+    radial-gradient(
+      circle at 30% 42%,
+      rgba(35, 105, 255, 0.045),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 72% 48%,
+      rgba(35, 105, 255, 0.025),
+      transparent 35%
+    ),
+    #ffffff;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  height: 130px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 27px 48px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 19px;
+}
+
+.brand-logo {
+  width: 83px;
+  height: 83px;
+
+  border: 3px solid #1464ec;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #1464ec;
+}
+
+.logo-heart-svg {
+  width: 70px;
+  height: 70px;
+}
+
+.brand-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 44px;
+  font-weight: 700;
+
+  color: #1260e6;
+
+  letter-spacing: -1.5px;
+
+  line-height: 1;
+}
+
+.brand-subtitle {
+  margin-top: 10px;
+
+  font-size: 17px;
+
+  letter-spacing: 5px;
+
+  color: #53658b;
+}
+
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.main-container {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 53% 47%;
+
+  padding: 0 48px 45px 32px;
+}
+
+
+/* =========================
+   LEFT
+========================= */
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  padding-right: 22px;
+}
+
+
+/* =========================
+   HEART
+========================= */
+
+.heart-container {
+  width: 100%;
+
+  height: 410px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.heart-image {
+  width: 100%;
+
+  max-width: 780px;
+
+  height: 430px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome-section {
+  width: 100%;
+
+  text-align: center;
+
+  margin-top: 3px;
+}
+
+.welcome-section h1 {
+  font-size: 41px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -1.2px;
+
+  color: #101a39;
+}
+
+.welcome-section h1 span {
+  color: #1261e9;
+}
+
+.welcome-section p {
+  margin-top: 13px;
+
+  font-size: 21px;
+
+  line-height: 1.55;
+
+  color: #50648d;
+}
+
+
+/* =========================
+   GOOGLE BUTTON
+========================= */
+
+.google-button {
+  width: 510px;
+  max-width: 90%;
+
+  height: 67px;
+
+  margin-top: 29px;
+
+  background: #ffffff;
+
+  border: 1px solid #d8e2f2;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 19px;
+
+  font-size: 21px;
+
+  font-weight: 500;
+
+  color: #111a35;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 15px rgba(37, 82, 145, 0.07);
+
+  transition: all 0.2s ease;
+}
+
+.google-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 24px rgba(37, 82, 145, 0.12);
+}
+
+.google-icon {
+  font-family: Arial, sans-serif;
+
+  font-size: 31px;
+
+  font-weight: 700;
+
+  background: linear-gradient(
+    90deg,
+    #4285f4,
+    #34a853,
+    #fbbc05,
+    #ea4335
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+
+/* =========================
+   OR
+========================= */
+
+.or-section {
+  width: 510px;
+  max-width: 90%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+
+  margin: 20px 0;
+}
+
+.or-section div {
+  height: 1px;
+
+  flex: 1;
+
+  background: #d7deeb;
+}
+
+.or-section span {
+  color: #5d6e90;
+
+  font-size: 17px;
+
+  font-weight: 500;
+}
+
+
+/* =========================
+   SIGN IN
+========================= */
+
+.signin-button {
+  width: 510px;
+  max-width: 90%;
+
+  height: 67px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1264f5,
+      #1461e8
+    );
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 17px;
+
+  font-size: 22px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px rgba(20, 97, 232, 0.22);
+
+  transition: all 0.2s ease;
+}
+
+.signin-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px rgba(20, 97, 232, 0.28);
+}
+
+.signin-button svg {
+  width: 31px;
+  height: 31px;
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+.security {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 29px;
+
+  color: #52668e;
+
+  font-size: 18px;
+}
+
+.security svg {
+  width: 25px;
+  height: 25px;
+
+  color: #1765eb;
+}
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.right-side {
+  display: flex;
+
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-left: 12px;
+}
+
+
+/* =========================
+   WHY CARD
+========================= */
+
+.why-card {
+  width: 100%;
+
+  max-width: 665px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid #dce6f5;
+
+  border-radius: 23px;
+
+  padding: 42px 50px 38px;
+
+  box-shadow:
+    0 8px 30px rgba(45, 85, 145, 0.07);
+}
+
+.why-card h2 {
+  font-size: 34px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.8px;
+
+  color: #101b3a;
+
+  margin-bottom: 25px;
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
+.feature {
+  display: flex;
+
+  align-items: center;
+
+  gap: 26px;
+
+  padding: 23px 0;
+
+  border-bottom: 1px solid #e1e7f1;
+}
+
+.feature:first-child {
+  padding-top: 0;
+}
+
+.feature:last-child {
+  border-bottom: none;
+}
+
+.feature-icon {
+  width: 96px;
+  height: 96px;
+
+  flex: 0 0 96px;
+
+  border-radius: 17px;
+
+  background: #f0f6ff;
+
+  color: #1164ed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+.feature-text {
+  flex: 1;
+}
+
+.feature-text h3 {
+  font-size: 24px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  color: #101b3a;
+
+  margin-bottom: 10px;
+}
+
+.feature-text p {
+  font-size: 18px;
+
+  line-height: 1.55;
+
+  color: #52658d;
+
+  max-width: 445px;
+}
+
+
+/* =========================
+   TRUSTED
+========================= */
+
+.trusted {
+  min-height: 72px;
+
+  margin-top: 23px;
+
+  border-radius: 14px;
+
+  background: #f2f7ff;
+
+  color: #1260e6;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 13px;
+
+  font-size: 19px;
+
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.trusted svg {
+  width: 27px;
+  height: 27px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+
+  .header {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .main-container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .brand-name {
+    font-size: 38px;
+  }
+
+  .brand-subtitle {
+    font-size: 14px;
+  }
+
+  .brand-logo {
+    width: 72px;
+    height: 72px;
+  }
+
+  .heart-container {
+    height: 360px;
+  }
+
+  .heart-image {
+    height: 360px;
+  }
+
+  .welcome-section h1 {
+    font-size: 35px;
+  }
+
+  .welcome-section p {
+    font-size: 18px;
+  }
+
+  .why-card {
+    padding: 35px;
+  }
+
+  .feature-icon {
+    width: 78px;
+    height: 78px;
+
+    flex-basis: 78px;
+  }
+
+  .feature-text h3 {
+    font-size: 21px;
+  }
+
+  .feature-text p {
+    font-size: 16px;
+  }
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+  .header {
+    height: auto;
+
+    padding: 25px;
+  }
+
+  .main-container {
+    grid-template-columns: 1fr;
+
+    padding: 0 25px 40px;
+  }
+
+  .left-side {
+    padding-right: 0;
+  }
+
+  .right-side {
+    padding-left: 0;
+
+    margin-top: 45px;
+  }
+
+  .heart-container {
+    height: auto;
+  }
+
+  .heart-image {
+    height: auto;
+
+    max-width: 780px;
+  }
+
+  .why-card {
+    max-width: 700px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .header {
+    padding: 20px 18px;
+  }
+
+  .brand {
+    gap: 12px;
+  }
+
+  .brand-logo {
+    width: 58px;
+    height: 58px;
+
+    border-width: 2px;
+  }
+
+  .logo-heart-svg {
+    width: 49px;
+    height: 49px;
+  }
+
+  .brand-name {
+    font-size: 27px;
+  }
+
+  .brand-subtitle {
+    font-size: 9px;
+
+    letter-spacing: 2.5px;
+
+    margin-top: 5px;
+  }
+
+  .main-container {
+    padding: 0 15px 30px;
+  }
+
+  .welcome-section h1 {
+    font-size: 30px;
+  }
+
+  .welcome-section p {
+    font-size: 16px;
+  }
+
+  .google-button,
+  .signin-button {
+    width: 100%;
+
+    height: 60px;
+  }
+
+  .why-card {
+    padding: 28px 22px;
+
+    border-radius: 18px;
+  }
+
+  .why-card h2 {
+    font-size: 28px;
+  }
+
+  .feature {
+    gap: 15px;
+  }
+
+  .feature-icon {
+    width: 65px;
+    height: 65px;
+
+    flex-basis: 65px;
+  }
+
+  .feature-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .feature-text h3 {
+    font-size: 18px;
+  }
+
+  .feature-text p {
+    font-size: 14px;
+  }
+
+  .trusted {
+    font-size: 14px;
+
+    padding: 12px;
+  }
+}
