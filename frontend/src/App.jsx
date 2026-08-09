@@ -1,6 +1,9 @@
+import React, { useEffect } from "react";
 import "./style.css";
 import heartImage from "./assets/images/pulseguard-heart-reference.png";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import { supabase } from "./utils/supabase";
 
 /* ================= ICONS ================= */
 
@@ -137,6 +140,25 @@ function LogoHeart() {
 
 function App() {
   const navigate = useNavigate();
+  const { session, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && session) {
+      navigate("/dashboard");
+    }
+  }, [session, loading, navigate]);
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/dashboard",
+      },
+    });
+    if (error) {
+      alert("Error logging in: " + error.message);
+    }
+  };
 
   const features = [
     {
@@ -224,7 +246,7 @@ function App() {
 
          <button
   className="google-button"
-  onClick={() => navigate("/dashboard")}
+  onClick={handleGoogleLogin}
 >
   <span className="google-icon">
     G

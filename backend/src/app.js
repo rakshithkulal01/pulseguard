@@ -8,6 +8,9 @@ import ecgRoutes from "./routes/ecg.routes.js";
 import AppError from "./utils/AppError.js";
 import STATUS_CODES from "./constants/statusCodes.js";
 import errorHandler from "./middleware/error.middleware.js";
+import reportRoutes from "./routes/report.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+
 
 const app = express();
 
@@ -17,8 +20,10 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
+app.use("/api/auth", authRoutes);
 app.use("/api/profiles", profileRoutes);
 app.use("/api/ecg", ecgRoutes);
+app.use("/api/report", reportRoutes);
 app.use(errorHandler);
 // Health Check Route
 app.get("/health", async (req, res) => {

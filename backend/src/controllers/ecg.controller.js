@@ -15,7 +15,7 @@ export const processECG = async (req, res, next) => {
 
         const validated = processECGSchema.parse(req.body);
 
-        const session = await processECGService(validated);
+        const session = await processECGService(validated, req.user.id);
 
         return sendSuccess(
             res,
@@ -37,7 +37,8 @@ export const getHistory = async (req, res, next) => {
     try {
 
         const history = await getHistoryService(
-            req.params.profileId
+            req.params.profileId,
+            req.user.id
         );
 
         return sendSuccess(
@@ -60,7 +61,8 @@ export const getSession = async (req, res, next) => {
     try {
 
         const session = await getSessionService(
-            req.params.id
+            req.params.id,
+            req.user.id
         );
 
         return sendSuccess(
@@ -83,7 +85,8 @@ export const deleteSession = async (req, res, next) => {
     try {
 
         await deleteSessionService(
-            req.params.id
+            req.params.id,
+            req.user.id
         );
 
         return sendSuccess(

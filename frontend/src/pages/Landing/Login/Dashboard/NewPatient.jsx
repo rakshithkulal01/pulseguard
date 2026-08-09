@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createProfile } from "../../../../services/profile";
 import "./NewPatient.css";
 
 function ArrowLeftIcon() {
@@ -114,12 +115,47 @@ function NewPatient() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
-    alert("Patient profile created successfully!");
+    try {
+      const age = new Date().getFullYear() - new Date(formData.dateOfBirth).getFullYear();
+      
+      const bloodGroupMapping = {
+        "A+": "A_POSITIVE",
+        "A-": "A_NEGATIVE",
+        "B+": "B_POSITIVE",
+        "B-": "B_NEGATIVE",
+        "AB+": "AB_POSITIVE",
+        "AB-": "AB_NEGATIVE",
+        "O+": "O_POSITIVE",
+        "O-": "O_NEGATIVE"
+      };
 
-    navigate("/dashboard");
+      const genderMapping = {
+        "Female": "FEMALE",
+        "Male": "MALE",
+        "Other": "OTHER"
+      };
+
+      const payload = {
+        fullName: formData.fullName,
+        age: age || 1,
+        gender: genderMapping[formData.gender],
+        bloodGroup: bloodGroupMapping[formData.bloodGroup],
+      };
+
+      await createProfile(payload);
+      alert("Patient profile created successfully!");
+      navigate("/dashboard");
+    } catch (error) {
+      alert("Error creating patient profile: " + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -406,8 +442,9 @@ function NewPatient() {
             <button
               type="submit"
               className="create-patient-button"
+              disabled={loading}
             >
-              Create Patient
+              {loading ? "Creating..." : "Create Patient"}
             </button>
 
           </div>

@@ -118,8 +118,9 @@ model Report {
 
   ecgSessionId  String @unique
   ecgSession    ECGSession @relation(fields: [ecgSessionId], references: [id], onDelete: Cascade)
+ 
+  pdfPath      String
 
-  pdfUrl       String
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

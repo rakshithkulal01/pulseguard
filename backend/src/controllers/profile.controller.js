@@ -1,5 +1,11 @@
 import { createProfileSchema } from "../validators/profile.validator.js";
-import { createProfileService } from "../services/profile.service.js";
+import {
+    createProfileService,
+    getProfilesService,
+    getProfileByIdService,
+    updateProfileService,
+    deleteProfileService
+} from "../services/profile.service.js";
 
 import STATUS_CODES from "../constants/statusCodes.js";
 import MESSAGES from "../constants/messages.js";

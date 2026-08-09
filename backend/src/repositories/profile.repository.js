@@ -28,6 +28,14 @@ export const findAllProfiles = async (accountId) => {
         where: {
             accountId
         },
+        include: {
+            sessions: {
+                orderBy: {
+                    createdAt: "desc"
+                },
+                take: 1
+            }
+        },
         orderBy: {
             createdAt: "desc"
         }

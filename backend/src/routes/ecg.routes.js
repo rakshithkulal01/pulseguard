@@ -6,8 +6,11 @@ import {
     getSession,
     deleteSession
 } from "../controllers/ecg.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 router.post("/process", processECG);
 
