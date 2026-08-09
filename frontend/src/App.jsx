@@ -1,188 +1,143 @@
 import "./style.css";
 import heartImage from "./assets/images/pulseguard-heart-reference.png";
+import { useNavigate } from "react-router-dom";
+
+/* ================= ICONS ================= */
 
 function ShieldIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <path
-        d="M12 3L20 6V11C20 16 16.8 20 12 21C7.2 20 4 16 4 11V6L12 3Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-      <path
-        d="M8 12L10.5 14.5L16 9"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 3L20 6V11C20 16 16.5 20 12 21C7.5 20 4 16 4 11V6L12 3Z" />
+      <path d="M9 12L11 14L15 10" />
     </svg>
   );
 }
 
 function PulseIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <path
-        d="M2 12H6L8.5 7L12 17L15 9L17 12H22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 12H7L9 7L13 17L15 12H21" />
     </svg>
   );
 }
 
 function FamilyIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <circle
-        cx="9"
-        cy="8"
-        r="3"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-
-      <circle
-        cx="17"
-        cy="9"
-        r="2.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-
-      <path
-        d="M3 20C3 16.7 5.7 14 9 14C12.3 14 15 16.7 15 20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M15 15C18.3 14.3 21 16.5 21 20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="9" cy="9" r="3" />
+      <circle cx="17" cy="9" r="2.5" />
+      <path d="M3 20C3 16.7 5.7 14 9 14C12.3 14 15 16.7 15 20" />
+      <path d="M15 15C18.3 14.3 21 16.5 21 20" />
     </svg>
   );
 }
 
 function ReportIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <path
-        d="M6 3H14L19 8V21H6V3Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M14 3V8H19"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-
-      <path
-        d="M9 16L11 13L13 15L16 11"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M14 3V8H19" />
+      <path d="M5 3H14L19 8V21H5V3Z" />
+      <path d="M9 16L11 13L13 15L16 11" />
     </svg>
   );
 }
 
 function LockIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <rect
-        x="5"
-        y="10"
-        width="14"
-        height="11"
-        rx="2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-
-      <path
-        d="M8 10V7C8 4.8 9.8 3 12 3C14.2 3 16 4.8 16 7V10"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="5" y="10" width="14" height="10" rx="2" />
+      <path d="M8 10V7C8 4.8 9.8 3 12 3C14.2 3 16 4.8 16 7V10" />
     </svg>
   );
 }
 
 function UserIcon() {
   return (
-    <svg viewBox="0 0 24 24">
-      <circle
-        cx="12"
-        cy="8"
-        r="3.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-
-      <path
-        d="M5 21C5.5 16.8 8.2 14.5 12 14.5C15.8 14.5 18.5 16.8 19 21"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="7" r="3.5" />
+      <path d="M5 21C5.5 16.8 8.2 14.5 12 14.5C15.8 14.5 18.5 16.8 19 21" />
     </svg>
   );
 }
 
 function LogoHeart() {
   return (
-    <svg viewBox="0 0 80 80" className="logo-heart-svg">
-      <path
-        d="M40 65
-        C36 60 16 46 12 32
-        C8 18 20 10 31 15
-        C36 17 39 22 40 26
-        C41 22 44 17 49 15
-        C60 10 72 18 68 32
-        C64 46 44 60 40 65Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-      />
-
-      <path
-        d="M13 40H27L32 31L38 49L44 30L49 40H67"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 80 64"
+      width="64"
+      height="64"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M40 52C37 49 13 34 13 20C13 12 19 7 26 7C32 7 37 10 40 16C43 10 48 7 54 7C61 7 67 12 67 20C67 34 43 49 40 52Z" />
+      <path d="M13 30H26L31 22L37 38L43 20L48 30H67" />
     </svg>
   );
 }
 
+
+/* ================= APP ================= */
+
 function App() {
+  const navigate = useNavigate();
+
   const features = [
     {
       icon: <ShieldIcon />,
@@ -207,7 +162,7 @@ function App() {
   ];
 
   return (
-    <div className="page">
+    <div className="app">
 
       {/* HEADER */}
       <header className="header">
@@ -219,6 +174,7 @@ function App() {
           </div>
 
           <div className="brand-content">
+
             <div className="brand-name">
               PulseGuard
             </div>
@@ -226,6 +182,7 @@ function App() {
             <div className="brand-subtitle">
               AI HEALTH PLATFORM
             </div>
+
           </div>
 
         </div>
@@ -240,11 +197,13 @@ function App() {
         <section className="left-side">
 
           <div className="heart-container">
+
             <img
               src={heartImage}
               alt="PulseGuard anatomical heart"
               className="heart-image"
             />
+
           </div>
 
 
@@ -263,42 +222,25 @@ function App() {
           </div>
 
 
-          {/* GOOGLE */}
-          <button className="google-button">
+         <button
+  className="google-button"
+  onClick={() => navigate("/dashboard")}
+>
+  <span className="google-icon">
+    G
+  </span>
 
-            <span className="google-icon">
-              G
-            </span>
-
-            <span>
-              Sign in with Google
-            </span>
-
-          </button>
-
-
-          {/* OR */}
-          <div className="or-section">
-
-            <div></div>
-
-            <span>OR</span>
-
-            <div></div>
-
-          </div>
+  <span>
+    Sign in with Google
+  </span>
+</button>
 
 
-          {/* SIGN IN */}
-          <button className="signin-button">
+         
 
-            <UserIcon />
 
-            <span>
-              Sign In
-            </span>
+          
 
-          </button>
 
 
           {/* SECURITY */}
