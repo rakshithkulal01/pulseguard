@@ -102,8 +102,7 @@ function NewPatient() {
     dateOfBirth: "",
     gender: "",
     bloodGroup: "",
-    phone: "",
-    emergencyContact: "",
+    
   });
 
   const handleChange = (event) => {
@@ -117,46 +116,49 @@ function NewPatient() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
+ const handleSubmit = async (event) => {
+  event.preventDefault();
+  setLoading(true);
 
-    try {
-      const age = new Date().getFullYear() - new Date(formData.dateOfBirth).getFullYear();
-      
-      const bloodGroupMapping = {
-        "A+": "A_POSITIVE",
-        "A-": "A_NEGATIVE",
-        "B+": "B_POSITIVE",
-        "B-": "B_NEGATIVE",
-        "AB+": "AB_POSITIVE",
-        "AB-": "AB_NEGATIVE",
-        "O+": "O_POSITIVE",
-        "O-": "O_NEGATIVE"
-      };
+  try {
+    const bloodGroupMapping = {
+      "A+": "A_POSITIVE",
+      "A-": "A_NEGATIVE",
+      "B+": "B_POSITIVE",
+      "B-": "B_NEGATIVE",
+      "AB+": "AB_POSITIVE",
+      "AB-": "AB_NEGATIVE",
+      "O+": "O_POSITIVE",
+      "O-": "O_NEGATIVE"
+    };
 
-      const genderMapping = {
-        "Female": "FEMALE",
-        "Male": "MALE",
-        "Other": "OTHER"
-      };
+    const genderMapping = {
+      "Female": "FEMALE",
+      "Male": "MALE",
+      "Other": "OTHER"
+    };
 
-      const payload = {
-        fullName: formData.fullName,
-        age: age || 1,
-        gender: genderMapping[formData.gender],
-        bloodGroup: bloodGroupMapping[formData.bloodGroup],
-      };
+    const payload = {
+      fullName: formData.fullName,
+      age: Number(formData.age),
+      gender: genderMapping[formData.gender],
+      bloodGroup: bloodGroupMapping[formData.bloodGroup],
+    };
 
-      await createProfile(payload);
-      alert("Patient profile created successfully!");
-      navigate("/dashboard");
-    } catch (error) {
-      alert("Error creating patient profile: " + (error.response?.data?.message || error.message));
-    } finally {
-      setLoading(false);
-    }
-  };
+    await createProfile(payload);
+
+    alert("Patient profile created successfully!");
+    navigate("/dashboard");
+
+  } catch (error) {
+    alert(
+      "Error creating patient profile: " +
+      (error.response?.data?.message || error.message)
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="new-patient-page">
@@ -258,29 +260,29 @@ function NewPatient() {
 
 
               {/* DATE OF BIRTH */}
+              {/* AGE */}
               <div className="form-group">
 
-                <label htmlFor="dateOfBirth">
-                  Date of Birth <span>*</span>
+                <label htmlFor="age">
+                  Age <span>*</span>
                 </label>
 
                 <div className="input-wrapper">
 
-                  <CalendarIcon />
-
                   <input
-                    id="dateOfBirth"
-                    type="date"
-                    name="dateOfBirth"
-                    value={formData.dateOfBirth}
+                    id="age"
+                    type="number"
+                    name="age"
+                    value={formData.age}
                     onChange={handleChange}
+                    min="1"
+                    max="120"
                     required
                   />
 
                 </div>
 
               </div>
-
 
               {/* GENDER */}
               <div className="form-group">
@@ -352,55 +354,9 @@ function NewPatient() {
 
 
               {/* PHONE */}
-              <div className="form-group">
+              
 
-                <label htmlFor="phone">
-                  Phone Number <span>*</span>
-                </label>
-
-                <div className="input-wrapper">
-
-                  <PhoneIcon />
-
-                  <input
-                    id="phone"
-                    type="tel"
-                    name="phone"
-                    placeholder="+91 XXXXX XXXXX"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-
-                </div>
-
-              </div>
-
-
-              {/* EMERGENCY CONTACT */}
-              <div className="form-group full-width">
-
-                <label htmlFor="emergencyContact">
-                  Emergency Contact <span>*</span>
-                </label>
-
-                <div className="input-wrapper">
-
-                  <PhoneIcon />
-
-                  <input
-                    id="emergencyContact"
-                    type="tel"
-                    name="emergencyContact"
-                    placeholder="Emergency contact number"
-                    value={formData.emergencyContact}
-                    onChange={handleChange}
-                    required
-                  />
-
-                </div>
-
-              </div>
+               
 
             </div>
 

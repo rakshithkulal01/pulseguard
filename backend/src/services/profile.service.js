@@ -7,43 +7,82 @@ import STATUS_CODES from "../constants/statusCodes.js";
 
 
 export const createProfileService = async (
-    accountId,
+    supabaseUserId,
     profileData
 ) => {
 
+    const account = await repository.findAccountBySupabaseUserId(
+        supabaseUserId
+    );
+
+    if (!account) {
+        throw new AppError(
+            "Account not found",
+            STATUS_CODES.NOT_FOUND
+        );
+    }
+
     const existing = await repository.findProfileByName(
-        accountId,
+        account.id,
         profileData.fullName
     );
 
     if (existing) {
         throw new AppError(
-    "Profile with this name already exists",
-    STATUS_CODES.CONFLICT
-);
-}
-
+            "Profile with this name already exists",
+            STATUS_CODES.CONFLICT
+        );
+    }
 
     return repository.createProfile({
-        accountId,
+        accountId: account.id,
         ...profileData
     });
 };
 
+export const getProfilesService = async (supabaseUserId) => {
 
-export const getProfilesService = async (accountId) => {
-    return repository.findAllProfiles(accountId);
+    const account = await repository.findAccountBySupabaseUserId(
+        supabaseUserId
+    );
+
+    if (!account) {
+        throw new AppError(
+            "Account not found",
+            STATUS_CODES.NOT_FOUND
+        );
+    }
+
+    return repository.findAllProfiles(account.id);
 };
 
-export const getProfileByIdService = async (id, accountId) => {
+export const getProfileByIdService = async (
+    id,
+    supabaseUserId
+) => {
 
-    const profile = await repository.findProfileById(id, accountId);
+    const account =
+        await repository.findAccountBySupabaseUserId(
+            supabaseUserId
+        );
+
+    if (!account) {
+        throw new AppError(
+            "Account not found",
+            STATUS_CODES.NOT_FOUND
+        );
+    }
+
+    const profile = await repository.findProfileById(
+        id,
+        account.id
+    );
 
     if (!profile) {
-      throw new AppError(
-    "Profile not found",
-    STATUS_CODES.NOT_FOUND
-);
+        throw new AppError(
+            "Profile not found",
+            STATUS_CODES.NOT_FOUND
+        );
     }
 
     return profile;
@@ -51,7 +90,7 @@ export const getProfileByIdService = async (id, accountId) => {
 
 export const updateProfileService = async (
     id,
-    accountId,
+    supabaseUserId,
     data
 ) => {
 

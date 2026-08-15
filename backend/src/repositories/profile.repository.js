@@ -15,6 +15,14 @@ export const findProfileByName = async (accountId, fullName) => {
     });
 };
 
+export const findAccountBySupabaseUserId = async (supabaseUserId) => {
+    return prisma.account.findUnique({
+        where: {
+            supabaseUserId
+        }
+    });
+};
+
 export const findProfileByIdOnly = async (id) => {
     return prisma.patientProfile.findUnique({
         where: {

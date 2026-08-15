@@ -23,4 +23,12 @@ router.put("/:id", updateProfile);
 
 router.delete("/:id", deleteProfile);
 
+//temporary test route
+router.post("/test", (req, res) => {
+    res.json({
+        success: true,
+        message: "Profile route is working"
+    });
+});
+
 export default router;

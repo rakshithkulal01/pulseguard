@@ -24,6 +24,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profiles", profileRoutes);
 app.use("/api/ecg", ecgRoutes);
 app.use("/api/report", reportRoutes);
+app.post("/api/test", (req, res) => {
+    res.json({
+        success: true,
+        message: "POST route is working"
+    });
+});
 app.use(errorHandler);
 // Health Check Route
 app.get("/health", async (req, res) => {
