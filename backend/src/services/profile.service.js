@@ -1,29 +1,16 @@
-
 import * as repository from "../repositories/profile.repository.js";
 
 import AppError from "../utils/AppError.js";
 import STATUS_CODES from "../constants/statusCodes.js";
 
 
-
 export const createProfileService = async (
-    supabaseUserId,
+    accountId,
     profileData
 ) => {
 
-    const account = await repository.findAccountBySupabaseUserId(
-        supabaseUserId
-    );
-
-    if (!account) {
-        throw new AppError(
-            "Account not found",
-            STATUS_CODES.NOT_FOUND
-        );
-    }
-
     const existing = await repository.findProfileByName(
-        account.id,
+        accountId,
         profileData.fullName
     );
 
@@ -35,47 +22,27 @@ export const createProfileService = async (
     }
 
     return repository.createProfile({
-        accountId: account.id,
+        accountId,
         ...profileData
     });
 };
 
-export const getProfilesService = async (supabaseUserId) => {
 
-    const account = await repository.findAccountBySupabaseUserId(
-        supabaseUserId
-    );
+export const getProfilesService = async (accountId) => {
 
-    if (!account) {
-        throw new AppError(
-            "Account not found",
-            STATUS_CODES.NOT_FOUND
-        );
-    }
+    return repository.findAllProfiles(accountId);
 
-    return repository.findAllProfiles(account.id);
 };
+
 
 export const getProfileByIdService = async (
     id,
-    supabaseUserId
+    accountId
 ) => {
-
-    const account =
-        await repository.findAccountBySupabaseUserId(
-            supabaseUserId
-        );
-
-    if (!account) {
-        throw new AppError(
-            "Account not found",
-            STATUS_CODES.NOT_FOUND
-        );
-    }
 
     const profile = await repository.findProfileById(
         id,
-        account.id
+        accountId
     );
 
     if (!profile) {
@@ -86,35 +53,48 @@ export const getProfileByIdService = async (
     }
 
     return profile;
+
 };
+
 
 export const updateProfileService = async (
     id,
-    supabaseUserId,
+    accountId,
     data
 ) => {
 
-    const profile = await repository.findProfileById(id, accountId);
+    const profile = await repository.findProfileById(
+        id,
+        accountId
+    );
 
     if (!profile) {
         throw new AppError(
-    "Profile not found",
-    STATUS_CODES.NOT_FOUND
-);
+            "Profile not found",
+            STATUS_CODES.NOT_FOUND
+        );
     }
 
     return repository.updateProfile(id, data);
+
 };
+
 
 export const deleteProfileService = async (
     id,
     accountId
 ) => {
 
-    const profile = await repository.findProfileById(id, accountId);
+    const profile = await repository.findProfileById(
+        id,
+        accountId
+    );
 
     if (!profile) {
-        throw new Error("Profile not found");
+        throw new AppError(
+            "Profile not found",
+            STATUS_CODES.NOT_FOUND
+        );
     }
 
     await repository.deleteProfile(id);

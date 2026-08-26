@@ -5,10 +5,13 @@ import { getProfiles } from "../../../../services/profile";
 import { getHistory, processECG, deleteSession } from "../../../../services/ecg";
 import { downloadReport } from "../../../../services/report";
 import "./Dashboard.css";
-
+//temporary import for logout function
 import heartImage from "../../../../assets/images/pulseguard-heart-reference.png";
 
 function Dashboard() {
+  const { token } = useAuth();
+
+console.log("ACCESS TOKEN:", token);
   const navigate = useNavigate();
   const { session, user, loading, logout } = useAuth();
 
