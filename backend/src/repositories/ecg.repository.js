@@ -28,17 +28,34 @@ export const getSessionById = async (id) => {
 };
 
 export const getHistory = async (profileId) => {
+
     return prisma.eCGSession.findMany({
+
         where: {
             profileId
         },
+
         orderBy: {
             createdAt: "desc"
         },
-        include: {
+
+        select: {
+            id: true,
+            duration: true,
+            prediction: true,
+            confidence: true,
+            riskLevel: true,
+            heartRate: true,
+            summary: true,
+            keyFindings: true,
+            processedAt: true,
+            status: true,
+            createdAt: true,
+
             report: true
         }
     });
+
 };
 
 export const deleteSession = async (id) => {
