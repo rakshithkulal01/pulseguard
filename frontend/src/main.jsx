@@ -1,22 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-
-import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
-
-ReactDOM.createRoot(
-  document.getElementById("root")
-).render(
-  <React.StrictMode>
-
-    <BrowserRouter>
-
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-
-    </BrowserRouter>
-
-  </React.StrictMode>
-);
+import App from "./App";
+import "./styles/globals.css";
+import { Toaster } from "sonner";
+ReactDOM.createRoot(document.getElementById("root")).render(<React.StrictMode><BrowserRouter><AuthProvider><App/><Toaster position="top-right" richColors /></AuthProvider></BrowserRouter></React.StrictMode>);

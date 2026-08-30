@@ -1,34 +1,8 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
-
-import App from "../App";
-import Dashboard from "../pages/Landing/Login/Dashboard/Dashboard";
-import NewPatient from "../pages/Landing/Login/Dashboard/NewPatient";
-
-function AppRoutes() {
-  return (
-    <Routes>
-
-      {/* PAGE 1 */}
-      <Route
-        path="/"
-        element={<App />}
-      />
-
-      {/* PAGE 2 */}
-      <Route
-        path="/dashboard"
-        element={<Dashboard />}
-      />
-
-      {/* PAGE 3 */}
-      <Route
-        path="/dashboard/new-patient"
-        element={<NewPatient />}
-      />
-
-    </Routes>
-  );
-}
-
-export default AppRoutes;
+import Landing from "../pages/Landing";
+import Dashboard from "../pages/Dashboard";
+import NewPatient from "../pages/NewPatient";
+import PatientProfile from "../pages/PatientProfile";
+import Settings from "../pages/Settings";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+export default function AppRoutes(){return <Routes><Route path="/" element={<Landing/>}/><Route element={<ProtectedRoute/>}><Route path="/dashboard" element={<Dashboard/>}/><Route path="/dashboard/new-patient" element={<NewPatient/>}/><Route path="/dashboard/profile" element={<PatientProfile/>}/><Route path="/dashboard/settings" element={<Settings/>}/></Route><Route path="*" element={<Landing/>}/></Routes>}

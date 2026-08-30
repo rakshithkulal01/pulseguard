@@ -1,0 +1,462 @@
+* {
+  box-sizing: border-box;
+}
+
+.new-patient-page {
+  min-height: 100vh;
+  background: #f5f8fd;
+  color: #10204b;
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.new-patient-header {
+  height: 82px;
+  background: #ffffff;
+  border-bottom: 1px solid #dce5f2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 36px;
+}
+
+.small-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.small-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.small-brand-name {
+  color: #1769ff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.small-brand-subtitle {
+  margin-top: 5px;
+  color: #7181a4;
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.back-button {
+  background: #ffffff;
+  border: 1px solid #ccd9ed;
+  border-radius: 8px;
+  padding: 11px 18px;
+
+  color: #17305f;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: #f3f7ff;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.new-patient-content {
+  width: 100%;
+  max-width: 1050px;
+
+  margin: 0 auto;
+
+  padding: 42px 35px 60px;
+}
+
+/* =========================
+   PAGE TITLE
+========================= */
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  margin-bottom: 28px;
+}
+
+.page-title-icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 11px;
+
+  background: #eaf2ff;
+  color: #1769ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title h1 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #142452;
+}
+
+.page-title p {
+  margin: 6px 0 0;
+
+  color: #60749d;
+
+  font-size: 14px;
+}
+
+/* =========================
+   FORM CARD
+========================= */
+
+.patient-form-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #dce5f2;
+
+  border-radius: 14px;
+
+  box-shadow: 0 6px 22px rgba(35, 75, 130, 0.08);
+
+  overflow: hidden;
+}
+
+/* =========================
+   FORM HEADER
+========================= */
+
+.form-header {
+  padding: 26px 30px 18px;
+}
+
+.form-header h2 {
+  margin: 0;
+
+  color: #142452;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.form-header p {
+  margin: 6px 0 0;
+
+  color: #7181a4;
+
+  font-size: 12px;
+}
+
+/* =========================
+   FORM BODY
+========================= */
+
+.form-body {
+  padding: 0 30px 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+/* Every field takes full width */
+
+.form-group {
+  width: 100%;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #10285b;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group label span {
+  color: #ff3d3d;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input-wrapper {
+  width: 100%;
+  height: 50px;
+
+  border: 1px solid #cddbef;
+
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 15px;
+
+  background: #ffffff;
+
+  color: #7185a9;
+
+  transition: 0.2s ease;
+}
+
+.input-wrapper:hover {
+  border-color: #b8cbe7;
+}
+
+.input-wrapper:focus-within {
+  border-color: #1769ff;
+
+  box-shadow: 0 0 0 3px rgba(23, 105, 255, 0.08);
+}
+
+.input-wrapper svg {
+  width: 19px;
+  height: 19px;
+
+  flex-shrink: 0;
+
+  margin-right: 11px;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #172d5b;
+
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+
+  font-size: 14px;
+}
+
+.input-wrapper input::placeholder {
+  color: #9aabc8;
+}
+
+.input-wrapper select {
+  cursor: pointer;
+}
+
+/* =========================
+   SECURITY MESSAGE
+========================= */
+
+.security-message {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  background: #eef5ff;
+
+  border-radius: 8px;
+
+  padding: 15px 17px;
+
+  margin-top: 2px;
+}
+
+.security-icon {
+  color: #1769ff;
+
+  display: flex;
+  align-items: center;
+}
+
+.security-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.security-message strong {
+  display: block;
+
+  color: #17366e;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.security-message p {
+  margin: 4px 0 0;
+
+  color: #6b80a6;
+
+  font-size: 10px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.form-footer {
+  border-top: 1px solid #e2e8f2;
+
+  padding: 18px 30px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  background: #ffffff;
+}
+
+.cancel-button,
+.create-button {
+  height: 44px;
+
+  padding: 0 22px;
+
+  border-radius: 7px;
+
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #ffffff;
+
+  border: 1px solid #ccd9ed;
+
+  color: #425477;
+
+  font-weight: 500;
+}
+
+.cancel-button:hover {
+  background: #f5f8fd;
+}
+
+.create-button {
+  background: #1769ff;
+
+  border: 1px solid #1769ff;
+
+  color: #ffffff;
+
+  font-weight: 600;
+
+  box-shadow: 0 5px 13px rgba(23, 105, 255, 0.22);
+}
+
+.create-button:hover {
+  background: #0e5ce5;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+  .new-patient-header {
+    height: 70px;
+    padding: 0 15px;
+  }
+
+  .small-brand-name {
+    font-size: 20px;
+  }
+
+  .small-brand-subtitle {
+    font-size: 8px;
+  }
+
+  .back-button {
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .new-patient-content {
+    padding: 25px 15px 35px;
+  }
+
+  .page-title h1 {
+    font-size: 23px;
+  }
+
+  .page-title p {
+    font-size: 12px;
+  }
+
+  .form-header {
+    padding: 22px;
+  }
+
+  .form-body {
+    padding: 0 22px 24px;
+    gap: 18px;
+  }
+
+  .form-footer {
+    padding: 16px 22px;
+  }
+}
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.form-error {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fff2f2;
+  font-size: 13px;
+}
+
+@media (max-width: 800px) {
+  .form-row { grid-template-columns: 1fr; }
+  .new-patient-header { padding: 0 20px; }
+  .back-button { padding: 9px 12px; }
+}

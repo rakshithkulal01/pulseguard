@@ -1,49 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
+import { signInWithGoogle, signOut } from "../services/auth.service";
 
-const AuthContext = createContext({});
-
-export const AuthProvider = ({ children }) => {
+const AuthContext = createContext(null);
+export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    // Get active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
-    });
-
-    // Listen for changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => { if (mounted) { setSession(data.session); setLoading(false); } });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => { setSession(nextSession); setLoading(false); });
+    return () => { mounted = false; subscription.unsubscribe(); };
   }, []);
-
-  const logout = async () => {
-    setLoading(true);
-    await supabase.auth.signOut();
-    setSession(null);
-    setLoading(false);
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        session,
-        user: session?.user,
-        token: session?.access_token,
-        loading,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
+  const loginWithGoogle = async () => { const { error } = await signInWithGoogle(); if (error) throw error; };
+  const logout = async () => { setLoading(true); try { const { error } = await signOut(); if (error) throw error; setSession(null); } finally { setLoading(false); } };
+  return <AuthContext.Provider value={{ session, user: session?.user, token: session?.access_token, loading, loginWithGoogle, logout }}>{children}</AuthContext.Provider>;
+}
 export const useAuth = () => useContext(AuthContext);
 export default AuthContext;

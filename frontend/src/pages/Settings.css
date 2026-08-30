@@ -1,0 +1,382 @@
+.settings-page {
+  min-height: 100vh;
+  background: #f7f9fc;
+  padding: 32px 48px 50px;
+  color: #14213d;
+  box-sizing: border-box;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Header */
+
+.settings-header {
+  margin-bottom: 32px;
+}
+
+.settings-header h1 {
+  margin: 0 0 7px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #102a56;
+}
+
+.settings-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Sections */
+
+.settings-section {
+  max-width: 1000px;
+  margin-bottom: 30px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.section-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #eaf2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+
+.section-heading h2 {
+  margin: 0 0 3px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #102a56;
+}
+
+.section-heading p {
+  margin: 0;
+  font-size: 12px;
+  color: #7b8798;
+}
+
+/* Cards */
+
+.settings-card {
+  background: #ffffff;
+  border: 1px solid #dbe5f1;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 2px 8px rgba(30, 64, 120, 0.04);
+}
+
+/* Profile */
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #eaf2ff;
+  color: #1464e8;
+  border: 1px solid #c9dcff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #102a56;
+}
+
+.profile-info p {
+  margin: 0;
+  color: #7b8798;
+  font-size: 12px;
+}
+
+/* Information */
+
+.info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.info-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: #8a96a8;
+}
+
+.info-value {
+  display: block;
+  font-size: 14px;
+  color: #263957;
+  font-weight: 500;
+}
+
+/* Divider */
+
+.divider {
+  height: 1px;
+  background: #e8edf4;
+  margin: 20px 0;
+}
+
+/* Setting item */
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.setting-item h3 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  color: #1c3152;
+}
+
+.setting-item p {
+  margin: 0;
+  max-width: 650px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #7b8798;
+}
+
+/* Buttons */
+
+.outline-button {
+  flex-shrink: 0;
+  border: 1px solid #cbdcf5;
+  background: #ffffff;
+  color: #1261df;
+  padding: 9px 15px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.outline-button:hover {
+  background: #f1f6ff;
+  border-color: #1261df;
+}
+
+.cancel-button {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #526174;
+  padding: 11px 20px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-button {
+  border: none;
+  background: #1769e8;
+  color: white;
+  padding: 11px 22px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(23, 105, 232, 0.2);
+}
+
+.save-button:hover {
+  background: #0f5dcc;
+}
+
+/* Toggle */
+
+.toggle {
+  width: 42px;
+  height: 23px;
+  border: none;
+  border-radius: 20px;
+  background: #cbd5e1;
+  padding: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.toggle span {
+  display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+.toggle.active {
+  background: #1769e8;
+}
+
+.toggle.active span {
+  transform: translateX(19px);
+}
+
+/* Privacy */
+
+.privacy-message {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: #f0f7ff;
+  border: 1px solid #d6e7ff;
+  border-radius: 9px;
+  padding: 15px;
+}
+
+.privacy-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #dff3e7;
+  color: #219653;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.privacy-message h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #183b68;
+}
+
+.privacy-message p {
+  margin: 0;
+  font-size: 11px;
+  color: #6b7c91;
+}
+
+/* Bottom actions */
+
+.settings-actions {
+  max-width: 1000px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 5px;
+}
+
+/* Dark mode */
+
+.settings-page.dark-mode {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.settings-page.dark-mode .settings-header h1,
+.settings-page.dark-mode .section-heading h2,
+.settings-page.dark-mode .profile-info h3,
+.settings-page.dark-mode .setting-item h3 {
+  color: #f1f5f9;
+}
+
+.settings-page.dark-mode .settings-header p,
+.settings-page.dark-mode .section-heading p,
+.settings-page.dark-mode .profile-info p,
+.settings-page.dark-mode .setting-item p {
+  color: #9ca3af;
+}
+
+.settings-page.dark-mode .settings-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.settings-page.dark-mode .divider {
+  background: #374151;
+}
+
+.settings-page.dark-mode .outline-button,
+.settings-page.dark-mode .cancel-button {
+  background: #1f2937;
+  border-color: #4b5563;
+  color: #93c5fd;
+}
+
+.settings-page.dark-mode .info-value {
+  color: #d1d5db;
+}
+
+.settings-page.dark-mode .privacy-message {
+  background: #172554;
+  border-color: #1e3a8a;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 24px 20px 40px;
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .setting-item {
+    align-items: flex-start;
+  }
+
+  .profile-row {
+    flex-wrap: wrap;
+  }
+
+  .settings-actions {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 500px) {
+  .settings-page {
+    padding: 20px 15px 35px;
+  }
+
+  .settings-header h1 {
+    font-size: 24px;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .setting-item .toggle,
+  .setting-item .outline-button {
+    align-self: flex-end;
+  }
+}
