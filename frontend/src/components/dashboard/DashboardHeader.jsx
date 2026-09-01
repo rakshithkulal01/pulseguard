@@ -1,32 +1,20 @@
-import { Search } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function DashboardHeader({ search, onSearch }) {
   const { user } = useAuth();
-  const doctorName = user?.user_metadata?.full_name || user?.user_metadata?.name || "Sarah Chen";
+  const doctorName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User";
 
   return (
-    <section className="welcome-section" aria-labelledby="dashboard-welcome-title">
+    <section className="welcome-section">
       <div className="welcome-content">
         <p className="welcome-small">Welcome back,</p>
-        <h2 id="dashboard-welcome-title">
-          Dr. {doctorName} <span aria-hidden="true">👋</span>
-        </h2>
-        <p className="welcome-description">
-          Select a patient profile to view health insights and monitoring data.
-        </p>
+        <h2>Dr. {doctorName} <span>👋</span></h2>
+        <p className="welcome-description">Select a patient profile to view health insights, monitor cardiac metrics, or generate reports.</p>
       </div>
-
-      <label className="search-box">
-        <Search className="search-icon" size={18} strokeWidth={2} aria-hidden="true" />
-        <input
-          aria-label="Search patients"
-          type="search"
-          placeholder="Search patients..."
-          value={search}
-          onChange={(event) => onSearch(event.target.value)}
-        />
-      </label>
+      <div className="search-box">
+        <span className="search-icon">⌕</span>
+        <input aria-label="Search patients" type="text" placeholder="Search patients..." value={search} onChange={(e) => onSearch(e.target.value)} />
+      </div>
     </section>
   );
 }

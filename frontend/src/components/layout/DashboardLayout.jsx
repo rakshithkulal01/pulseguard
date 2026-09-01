@@ -1,4 +1,3 @@
-import { LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../constants/routes";
@@ -6,47 +5,23 @@ import heartImage from "../../assets/images/pulseguard-heart-reference.png";
 
 export default function DashboardLayout({ children }) {
   const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate(ROUTES.HOME, { replace: true });
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
-  return (
-    <div className="dashboard-page">
-      <header className="dashboard-header">
-        <button className="dashboard-logo" type="button" onClick={() => navigate(ROUTES.DASHBOARD)} aria-label="Go to PulseGuard dashboard">
-          <span className="dashboard-logo-icon">
-            <img src={heartImage} alt="" />
-          </span>
-          <span className="dashboard-logo-copy">
-            <span className="dashboard-logo-name">PulseGuard</span>
-            <span className="dashboard-logo-subtitle">AI HEALTH PLATFORM</span>
-          </span>
-        </button>
-
-        <nav className="header-actions" aria-label="Dashboard actions">
-          <button className="header-action" type="button" onClick={() => navigate(ROUTES.SETTINGS)}>
-            <Settings size={15} strokeWidth={2.1} aria-hidden="true" />
-            <span>Settings</span>
-          </button>
-          <span className="header-divider" aria-hidden="true" />
-          <button className="header-action" type="button" onClick={handleLogout}>
-            <LogOut size={15} strokeWidth={2.1} aria-hidden="true" />
-            <span>Logout</span>
-          </button>
-        </nav>
-      </header>
-      {children}
-      <footer className="dashboard-footer">
-        <span>© 2026 PulseGuard AI Health Platform. All rights reserved.</span>
-        <span>Version 1.0.0</span>
-      </footer>
-    </div>
-  );
+  const { user, logout } = useAuth();
+  const doctorName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User";
+  const handleLogout = async () => { try { await logout(); navigate(ROUTES.HOME, { replace: true }); } catch (error) { console.error("Logout failed:", error); } };
+  return <div className="dashboard-page">
+    <header className="dashboard-header">
+      <div className="dashboard-logo">
+        <div className="dashboard-logo-icon"><img src={heartImage} alt="PulseGuard" /></div><div><h1>PulseGuard</h1><p>AI HEALTH PLATFORM</p></div>
+      </div>
+      <div className="header-actions"><button className="settings-button" onClick={() => navigate(ROUTES.SETTINGS)}><span>⚙</span>Settings</button><div className="header-divider" /><button className="logout-button" onClick={handleLogout}><span>⇥</span>Logout</button></div>
+    </header>
+    {children}
+    <footer className="dashboard-footer"><p>© 2026 PulseGuard AI Health Platform. All rights reserved.</p><span>Version 1.0.0</span></footer>
+  </div>;
 }
+
+export const DashboardWelcome = ({ search, onSearch }) => {
+  const { user } = useAuth();
+  const doctorName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User";
+  return <section className="welcome-section"><div className="welcome-content"><p className="welcome-small">Welcome back,</p><h2>Dr. {doctorName} <span>👋</span></h2><p className="welcome-description">Select a patient profile to view health insights, monitor cardiac metrics, or generate reports.</p></div><div className="search-box"><span className="search-icon">⌕</span><input type="text" placeholder="Search patients..." value={search} onChange={(e) => onSearch(e.target.value)} /></div></section>;
+};
