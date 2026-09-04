@@ -392,7 +392,6 @@
 ========================= */
 
 @media (max-width: 600px) {
-
   .new-patient-header {
     height: 70px;
     padding: 0 15px;
@@ -456,7 +455,13 @@
 }
 
 @media (max-width: 800px) {
-  .form-row { grid-template-columns: 1fr; }
-  .new-patient-header { padding: 0 20px; }
-  .back-button { padding: 9px 12px; }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .new-patient-header {
+    padding: 0 20px;
+  }
+  .back-button {
+    padding: 9px 12px;
+  }
 }

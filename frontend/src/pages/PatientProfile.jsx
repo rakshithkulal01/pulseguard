@@ -7,4 +7,175 @@ import { ROUTES } from "../constants/routes";
 import { getErrorMessage } from "../utils/formatters";
 import "./PatientProfile.css";
 
-export default function PatientProfile(){const location=useLocation();const navigate=useNavigate();const patient=location.state?.patient;const [selected,setSelected]=useState(null);const {history,loading,fetchHistory}=useECG();useEffect(()=>{if(patient?.id) fetchHistory(patient.id).catch(()=>{});},[patient?.id,fetchHistory]);if(!patient)return <div className="patient-profile-page"><main className="profile-container"><p>Patient information is unavailable.</p><button className="back-button" onClick={()=>navigate(ROUTES.DASHBOARD)}>Back to Dashboard</button></main></div>;return <div className="patient-profile-page"><header className="profile-header"><button className="back-button" onClick={()=>navigate(ROUTES.DASHBOARD)}>← <span>Back to Dashboard</span></button><button className="edit-profile-button" onClick={()=>window.alert("Profile editing will be connected to the profile API here.")}>✎ <span>Edit Profile</span></button></header><main className="profile-container"><PatientInfo patient={patient}/><section className="history-section"><div className="history-heading"><div><h2>ECG History</h2><p>All ECG sessions and reports for this patient</p></div><button className="new-ecg-button" onClick={()=>window.alert("Start a new ECG session from the dashboard history monitor.")}>＋ <span>New ECG Session</span></button></div><div className="ecg-list">{loading?<div className="modal-loading">Loading ECG history...</div>:history.length===0?<div className="modal-empty-history">No ECG recordings found for this patient.</div>:history.map((session)=><div className={`ecg-card ${session.riskLevel === "HIGH" ? "high-risk-card" : ""}`} key={session.id}><div className="ecg-card-top"><div className="ecg-icon">♥</div><div className="session-title"><span>ECG Session #{session.id}</span><small>{session.createdAt?new Date(session.createdAt).toLocaleString():"N/A"}</small></div><div className={`prediction-badge ${(session.prediction||"").toLowerCase()}`}>{session.prediction||"N/A"}</div></div><div className="ecg-stats"><div className="ecg-stat"><span>Heart Rate</span><strong>{session.heartRate||"N/A"}<small>{session.heartRate&&" BPM"}</small></strong></div><div className="ecg-stat"><span>Confidence</span><strong>{session.confidence||"N/A"}</strong></div><div className="ecg-stat"><span>Risk Level</span><strong className={session.riskLevel === "LOW" ? "risk-low" : "risk-high"}>{session.riskLevel||"N/A"}</strong></div></div><div className="ecg-meta"><div><span className="meta-label">Duration</span><strong>{session.duration||"N/A"}</strong></div><div><span className="meta-label">Report</span><strong className="report-available">{session.report?"Available":"Not Available"}</strong></div></div><div className="ecg-actions"><button className="view-button" onClick={()=>setSelected(session)}>◉ <span>View Analysis</span></button>{session.report&&<DownloadReport sessionId={session.id}/>}</div></div>)}</div></section></main>{selected&&<div className="modal-backdrop" onClick={()=>setSelected(null)}><div className="modal-container" onClick={e=>e.stopPropagation()}><div className="modal-header"><div><h2>ECG Session #{selected.id}</h2><p className="modal-subtitle">Prediction: {selected.prediction||"N/A"}</p></div><button className="modal-close-btn" onClick={()=>setSelected(null)}>&times;</button></div><div className="modal-body"><p>{selected.explanation||"Detailed analysis is available when provided by the backend."}</p></div></div></div>}</div>;}
+export default function PatientProfile() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const patient = location.state?.patient;
+  const [selected, setSelected] = useState(null);
+  const { history, loading, fetchHistory } = useECG();
+  useEffect(() => {
+    if (patient?.id) fetchHistory(patient.id).catch(() => {});
+  }, [patient?.id, fetchHistory]);
+  if (!patient)
+    return (
+      <div className="patient-profile-page">
+        <main className="profile-container">
+          <p>Patient information is unavailable.</p>
+          <button
+            className="back-button"
+            onClick={() => navigate(ROUTES.DASHBOARD)}
+          >
+            Back to Dashboard
+          </button>
+        </main>
+      </div>
+    );
+  return (
+    <div className="patient-profile-page">
+      <header className="profile-header">
+        <button
+          className="back-button"
+          onClick={() => navigate(ROUTES.DASHBOARD)}
+        >
+          ← <span>Back to Dashboard</span>
+        </button>
+        <button
+          className="edit-profile-button"
+          onClick={() =>
+            window.alert(
+              "Profile editing will be connected to the profile API here.",
+            )
+          }
+        >
+          ✎ <span>Edit Profile</span>
+        </button>
+      </header>
+      <main className="profile-container">
+        <PatientInfo patient={patient} />
+        <section className="history-section">
+          <div className="history-heading">
+            <div>
+              <h2>ECG History</h2>
+              <p>All ECG sessions and reports for this patient</p>
+            </div>
+            <button
+              className="new-ecg-button"
+              onClick={() =>
+                window.alert(
+                  "Start a new ECG session from the dashboard history monitor.",
+                )
+              }
+            >
+              ＋ <span>New ECG Session</span>
+            </button>
+          </div>
+          <div className="ecg-list">
+            {loading ? (
+              <div className="modal-loading">Loading ECG history...</div>
+            ) : history.length === 0 ? (
+              <div className="modal-empty-history">
+                No ECG recordings found for this patient.
+              </div>
+            ) : (
+              history.map((session) => (
+                <div
+                  className={`ecg-card ${session.riskLevel === "HIGH" ? "high-risk-card" : ""}`}
+                  key={session.id}
+                >
+                  <div className="ecg-card-top">
+                    <div className="ecg-icon">♥</div>
+                    <div className="session-title">
+                      <span>ECG Session #{session.id}</span>
+                      <small>
+                        {session.createdAt
+                          ? new Date(session.createdAt).toLocaleString()
+                          : "N/A"}
+                      </small>
+                    </div>
+                    <div
+                      className={`prediction-badge ${(session.prediction || "").toLowerCase()}`}
+                    >
+                      {session.prediction || "N/A"}
+                    </div>
+                  </div>
+                  <div className="ecg-stats">
+                    <div className="ecg-stat">
+                      <span>Heart Rate</span>
+                      <strong>
+                        {session.heartRate || "N/A"}
+                        <small>{session.heartRate && " BPM"}</small>
+                      </strong>
+                    </div>
+                    <div className="ecg-stat">
+                      <span>Confidence</span>
+                      <strong>{session.confidence || "N/A"}</strong>
+                    </div>
+                    <div className="ecg-stat">
+                      <span>Risk Level</span>
+                      <strong
+                        className={
+                          session.riskLevel === "LOW" ? "risk-low" : "risk-high"
+                        }
+                      >
+                        {session.riskLevel || "N/A"}
+                      </strong>
+                    </div>
+                  </div>
+                  <div className="ecg-meta">
+                    <div>
+                      <span className="meta-label">Duration</span>
+                      <strong>{session.duration || "N/A"}</strong>
+                    </div>
+                    <div>
+                      <span className="meta-label">Report</span>
+                      <strong className="report-available">
+                        {session.report ? "Available" : "Not Available"}
+                      </strong>
+                    </div>
+                  </div>
+                  <div className="ecg-actions">
+                    <button
+                      className="view-button"
+                      onClick={() => setSelected(session)}
+                    >
+                      ◉ <span>View Analysis</span>
+                    </button>
+                    {session.report && (
+                      <DownloadReport sessionId={session.id} />
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+      </main>
+      {selected && (
+        <div className="modal-backdrop" onClick={() => setSelected(null)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div>
+                <h2>ECG Session #{selected.id}</h2>
+                <p className="modal-subtitle">
+                  Prediction: {selected.prediction || "N/A"}
+                </p>
+              </div>
+              <button
+                className="modal-close-btn"
+                onClick={() => setSelected(null)}
+              >
+                &times;
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>
+                {selected.explanation ||
+                  "Detailed analysis is available when provided by the backend."}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

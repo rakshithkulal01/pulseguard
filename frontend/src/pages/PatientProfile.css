@@ -155,8 +155,7 @@
 .patient-details {
   display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   border-top: 1px solid #e3eaf4;
 
@@ -427,8 +426,7 @@
 .ecg-stats {
   display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   border-top: 1px solid #e5ebf3;
 
@@ -595,7 +593,6 @@
 ========================= */
 
 @media (max-width: 850px) {
-
   .profile-header {
     padding: 0 20px;
   }
@@ -649,7 +646,6 @@
 }
 
 @media (max-width: 600px) {
-
   .profile-header {
     height: 68px;
   }

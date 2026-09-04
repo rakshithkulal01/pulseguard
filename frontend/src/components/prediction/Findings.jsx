@@ -1,1 +1,17 @@
-export default function Findings({ findings = [], explanation }) { return <div className="findings"><h3>Key Findings</h3>{explanation && <p>{explanation}</p>}{findings.length ? <ul>{findings.map((finding, index) => <li key={index}>{finding}</li>)}</ul> : !explanation && <p>No additional findings available.</p>}</div>; }
+export default function Findings({ findings = [], explanation }) {
+  return (
+    <div className="findings">
+      <h3>Key Findings</h3>
+      {explanation && <p>{explanation}</p>}
+      {findings.length ? (
+        <ul>
+          {findings.map((finding, index) => (
+            <li key={index}>{finding}</li>
+          ))}
+        </ul>
+      ) : (
+        !explanation && <p>No additional findings available.</p>
+      )}
+    </div>
+  );
+}

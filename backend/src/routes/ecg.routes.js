@@ -2,6 +2,7 @@ import express from "express";
 
 import {
     processECG,
+    createSession,
     getHistory,
     getSession,
     deleteSession
@@ -12,6 +13,8 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
+router.post("/session", createSession);
+router.post("/create-session", createSession);
 router.post("/process", processECG);
 
 

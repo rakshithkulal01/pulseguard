@@ -8,11 +8,22 @@ export function useProfiles(enabled = true) {
   const [error, setError] = useState(null);
   const fetchPatients = useCallback(async () => {
     if (!enabled) return [];
-    setLoading(true); setError(null);
-    try { const result = normalizeListResponse(await getProfiles()); setPatients(result); return result; }
-    catch (err) { setError(err); throw err; } finally { setLoading(false); }
+    setLoading(true);
+    setError(null);
+    try {
+      const result = normalizeListResponse(await getProfiles());
+      setPatients(result);
+      return result;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   }, [enabled]);
-  useEffect(() => { fetchPatients().catch(() => {}); }, [fetchPatients]);
+  useEffect(() => {
+    fetchPatients().catch(() => {});
+  }, [fetchPatients]);
   return { patients, setPatients, loading, error, refetch: fetchPatients };
 }
 

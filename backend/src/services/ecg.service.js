@@ -7,6 +7,61 @@ import SESSION_STATUS from "../constants/sessionStatus.js";
 import { generatePDF } from "../reports/pdf.service.js";
 import * as reportRepository from "../repositories/report.repository.js";
 
+export const createSessionService = async (payload, accountId) => {
+    const profile = await profileRepository.findProfileById(
+        payload.profileId,
+        accountId
+    );
+
+    if (!profile) {
+        throw new AppError(
+            "Patient profile not found",
+            STATUS_CODES.NOT_FOUND
+        );
+    }
+
+    return await repository.createSession({
+        profileId: payload.profileId,
+        duration: payload.duration || 10,
+        rawSamples: [],
+        status: SESSION_STATUS.PROCESSING
+    });
+};
+
+export const saveSocketPredictionService = async (sessionId, samples, predictionResult) => {
+    try {
+        const session = await repository.getSessionById(sessionId);
+        if (!session) return null;
+
+        const updatedSession = await repository.updateSession(sessionId, {
+            prediction: predictionResult.prediction,
+            confidence: predictionResult.confidence,
+            riskLevel: predictionResult.riskLevel,
+            heartRate: predictionResult.heartRate,
+            summary: predictionResult.summary,
+            keyFindings: predictionResult.keyFindings,
+            rawSamples: samples,
+            processedAt: new Date(),
+            status: SESSION_STATUS.COMPLETED
+        });
+
+        if (session.profile) {
+            const pdf = await generatePDF(updatedSession, session.profile);
+            await reportRepository.createReport({
+                ecgSessionId: updatedSession.id,
+                pdfPath: pdf.filePath
+            });
+        }
+
+        return updatedSession;
+    } catch (error) {
+        console.error(`Failed to save socket prediction for session ${sessionId}:`, error.message);
+        await repository.updateSession(sessionId, {
+            status: SESSION_STATUS.FAILED
+        }).catch(() => {});
+    }
+};
+
 export const processECGService = async (payload, accountId) => {
 
     // 1. Verify patient profile
@@ -25,10 +80,14 @@ export const processECGService = async (payload, accountId) => {
     // 2. Create ECG session
     const session = await repository.createSession({
         profileId: payload.profileId,
-        duration: payload.duration,
-        rawSamples: payload.samples,
+        duration: payload.duration || 10,
+        rawSamples: payload.samples || [],
         status: SESSION_STATUS.PROCESSING
     });
+
+    if (!payload.samples || !payload.samples.length) {
+        return session;
+    }
 
     try {
 

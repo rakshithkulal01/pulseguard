@@ -25,7 +25,6 @@ body {
   color: #111d3d;
 }
 
-
 /* =========================
    PAGE
 ========================= */
@@ -49,7 +48,6 @@ body {
 
   overflow-x: hidden;
 }
-
 
 /* =========================
    HEADER
@@ -118,7 +116,6 @@ body {
   color: #53658b;
 }
 
-
 /* =========================
    MAIN LAYOUT
 ========================= */
@@ -133,7 +130,6 @@ body {
   padding: 0 48px 45px 32px;
 }
 
-
 /* =========================
    LEFT
 ========================= */
@@ -146,7 +142,6 @@ body {
 
   padding-right: 22px;
 }
-
 
 /* =========================
    HEART
@@ -175,7 +170,6 @@ body {
 
   display: block;
 }
-
 
 /* =========================
    WELCOME
@@ -215,7 +209,6 @@ body {
   color: #50648d;
 }
 
-
 /* =========================
    GOOGLE BUTTON
 ========================= */
@@ -248,8 +241,7 @@ body {
 
   cursor: pointer;
 
-  box-shadow:
-    0 4px 15px rgba(37, 82, 145, 0.07);
+  box-shadow: 0 4px 15px rgba(37, 82, 145, 0.07);
 
   transition: all 0.2s ease;
 }
@@ -257,8 +249,7 @@ body {
 .google-button:hover {
   transform: translateY(-2px);
 
-  box-shadow:
-    0 8px 24px rgba(37, 82, 145, 0.12);
+  box-shadow: 0 8px 24px rgba(37, 82, 145, 0.12);
 }
 
 .google-icon {
@@ -268,20 +259,13 @@ body {
 
   font-weight: 700;
 
-  background: linear-gradient(
-    90deg,
-    #4285f4,
-    #34a853,
-    #fbbc05,
-    #ea4335
-  );
+  background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
 
   -webkit-background-clip: text;
   background-clip: text;
 
   color: transparent;
 }
-
 
 /* =========================
    OR
@@ -315,7 +299,6 @@ body {
   font-weight: 500;
 }
 
-
 /* =========================
    SIGN IN
 ========================= */
@@ -330,12 +313,7 @@ body {
 
   border-radius: 10px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #1264f5,
-      #1461e8
-    );
+  background: linear-gradient(135deg, #1264f5, #1461e8);
 
   color: white;
 
@@ -351,8 +329,7 @@ body {
 
   cursor: pointer;
 
-  box-shadow:
-    0 10px 25px rgba(20, 97, 232, 0.22);
+  box-shadow: 0 10px 25px rgba(20, 97, 232, 0.22);
 
   transition: all 0.2s ease;
 }
@@ -360,15 +337,13 @@ body {
 .signin-button:hover {
   transform: translateY(-2px);
 
-  box-shadow:
-    0 14px 30px rgba(20, 97, 232, 0.28);
+  box-shadow: 0 14px 30px rgba(20, 97, 232, 0.28);
 }
 
 .signin-button svg {
   width: 31px;
   height: 31px;
 }
-
 
 /* =========================
    SECURITY
@@ -396,7 +371,6 @@ body {
   color: #1765eb;
 }
 
-
 /* =========================
    RIGHT SIDE
 ========================= */
@@ -409,7 +383,6 @@ body {
 
   padding-left: 12px;
 }
-
 
 /* =========================
    WHY CARD
@@ -428,8 +401,7 @@ body {
 
   padding: 42px 50px 38px;
 
-  box-shadow:
-    0 8px 30px rgba(45, 85, 145, 0.07);
+  box-shadow: 0 8px 30px rgba(45, 85, 145, 0.07);
 }
 
 .why-card h2 {
@@ -445,7 +417,6 @@ body {
 
   margin-bottom: 25px;
 }
-
 
 /* =========================
    FEATURES
@@ -519,7 +490,6 @@ body {
   max-width: 445px;
 }
 
-
 /* =========================
    TRUSTED
 ========================= */
@@ -553,13 +523,11 @@ body {
   height: 27px;
 }
 
-
 /* =========================
    RESPONSIVE
 ========================= */
 
 @media (max-width: 1200px) {
-
   .header {
     padding-left: 30px;
     padding-right: 30px;
@@ -619,13 +587,11 @@ body {
   }
 }
 
-
 /* =========================
    TABLET
 ========================= */
 
 @media (max-width: 900px) {
-
   .header {
     height: auto;
 
@@ -663,13 +629,11 @@ body {
   }
 }
 
-
 /* =========================
    MOBILE
 ========================= */
 
 @media (max-width: 600px) {
-
   .header {
     padding: 20px 18px;
   }

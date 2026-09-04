@@ -1,4 +1,44 @@
 import { useState } from "react";
 import { downloadReport } from "../../services/report.service";
 import { notify } from "../../utils/notifications";
-export default function DownloadReport({ sessionId, className = "download-button", children = "Download Report" }) { const [loading, setLoading] = useState(false); const handleDownload = async () => { setLoading(true); try { const blob = await downloadReport(sessionId); const url = window.URL.createObjectURL(new Blob([blob], { type: "application/pdf" })); const link = document.createElement("a"); link.href = url; link.download = `ECG_Report_${sessionId}.pdf`; document.body.appendChild(link); link.click(); link.remove(); window.URL.revokeObjectURL(url); } catch (error) { notify.error(error?.response?.data?.message || error?.message || "Unable to download the report."); } finally { setLoading(false); } }; return <button type="button" className={className} onClick={handleDownload} disabled={loading}>{loading ? "Downloading..." : children}</button>; }
+export default function DownloadReport({
+  sessionId,
+  className = "download-button",
+  children = "Download Report",
+}) {
+  const [loading, setLoading] = useState(false);
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const blob = await downloadReport(sessionId);
+      const url = window.URL.createObjectURL(
+        new Blob([blob], { type: "application/pdf" }),
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `ECG_Report_${sessionId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      notify.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Unable to download the report.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={handleDownload}
+      disabled={loading}
+    >
+      {loading ? "Downloading..." : children}
+    </button>
+  );
+}

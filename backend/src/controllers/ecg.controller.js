@@ -1,13 +1,29 @@
-import { processECGSchema } from "../validators/ecg.validator.js";
+import { processECGSchema, createSessionSchema } from "../validators/ecg.validator.js";
 
 import STATUS_CODES from "../constants/statusCodes.js";
 import { sendSuccess } from "../utils/response.js";
 import {
     processECGService,
+    createSessionService,
     getHistoryService,
     getSessionService,
     deleteSessionService
 } from "../services/ecg.service.js";
+
+export const createSession = async (req, res, next) => {
+    try {
+        const validated = createSessionSchema.parse(req.body);
+        const session = await createSessionService(validated, req.user.id);
+        return sendSuccess(
+            res,
+            STATUS_CODES.CREATED,
+            "ECG session created successfully",
+            session
+        );
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const processECG = async (req, res, next) => {
 

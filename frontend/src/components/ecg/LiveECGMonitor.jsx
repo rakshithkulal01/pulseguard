@@ -8,7 +8,13 @@ export default function LiveECGMonitor({ samples = [], status = "Ready" }) {
           <h3>ECG Signal</h3>
           <p>Patient ECG waveform</p>
         </div>
-        <span className={status === "Processing..." ? "ecg-monitor-status processing" : "ecg-monitor-status"}>
+        <span
+          className={
+            status === "Processing..."
+              ? "ecg-monitor-status processing"
+              : "ecg-monitor-status"
+          }
+        >
           <i /> {status}
         </span>
       </div>
