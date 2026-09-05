@@ -1,4 +1,5 @@
-import serial
+#this code was used to save actual input from the ECG sensor to a CSV file. It was used to collect data for training the model.
+import serial  
 import pandas as pd
 import time
 
