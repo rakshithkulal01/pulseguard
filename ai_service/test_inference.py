@@ -44,8 +44,14 @@ class TestFastAPIInference(unittest.TestCase):
     def test_02_model_shapes(self):
         """Verify the actual loaded model input and output shapes."""
         self.assertIsNotNone(fastapi_server.model)
-        self.assertEqual(fastapi_server.model.input_shape, (None, 1000, 1))
-        self.assertEqual(fastapi_server.model.output_shape, (None, 1))
+        m = fastapi_server.model
+        if isinstance(m.input_shape, list):
+            # Multi-input model: ecg_input + st_input
+            ecg_shapes = [s for s in m.input_shape if s == (None, 1000, 1)]
+            self.assertTrue(len(ecg_shapes) >= 1)
+        else:
+            self.assertEqual(m.input_shape, (None, 1000, 1))
+        self.assertEqual(m.output_shape, (None, 1))
 
     def test_03_valid_1000_samples(self):
         """Verify that exactly 1000 samples return a valid prediction, schema, and diagnostics."""
@@ -175,6 +181,51 @@ class TestFastAPIInference(unittest.TestCase):
         bpm = calculate_heart_rate(signal, sampling_rate=100)
         self.assertIsInstance(bpm, int)
         self.assertTrue(40 <= bpm <= 200)
+
+    def test_11_known_normal_ecg(self):
+        """Verify that known NORMAL ECG recording (NORMAL_LeadII_151.csv) predicts NORMAL with low probability."""
+        import pandas as pd
+        csv_path = os.path.join(CURRENT_DIR, "NORMAL_LeadII_151.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            samples = pd.to_numeric(df["Lead_2"]).dropna().tolist()[:1000]
+            req = ECGPredictionRequest(samples=samples)
+            result = asyncio.run(predict(req))
+            self.assertEqual(result["prediction"], "NORMAL")
+            self.assertEqual(result["riskLevel"], "LOW")
+            self.assertLess(result["probability"], 0.7)
+            self.assertGreater(result["confidence"], 70.0)
+
+    def test_12_known_mi_ecg(self):
+        """Verify that known MI ECG recording (io/mi2.csv) predicts MI with high probability."""
+        import pandas as pd
+        csv_path = os.path.join(CURRENT_DIR, "io", "mi2.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            samples = pd.to_numeric(df.iloc[:, 0]).dropna().tolist()[:1000]
+            req = ECGPredictionRequest(samples=samples)
+            result = asyncio.run(predict(req))
+            self.assertEqual(result["prediction"], "MI")
+            self.assertEqual(result["riskLevel"], "HIGH")
+            self.assertGreaterEqual(result["probability"], 0.7)
+            self.assertGreater(result["confidence"], 70.0)
+
+    def test_13_adc_offset_invariance(self):
+        """Verify that adding large DC offset (+500 ADC units) preserves exact prediction probability and NORMAL label."""
+        import pandas as pd
+        csv_path = os.path.join(CURRENT_DIR, "NORMAL_LeadII_151.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            samples_clean = pd.to_numeric(df["Lead_2"]).dropna().tolist()[:1000]
+            samples_shifted = [s + 500.0 for s in samples_clean]
+            
+            res_clean = asyncio.run(predict(ECGPredictionRequest(samples=samples_clean)))
+            res_shifted = asyncio.run(predict(ECGPredictionRequest(samples=samples_shifted)))
+            
+            self.assertEqual(res_clean["prediction"], res_shifted["prediction"])
+            self.assertAlmostEqual(res_clean["probability"], res_shifted["probability"], places=3)
+            self.assertAlmostEqual(res_shifted["diagnostics"]["normalizedMean"], 0.0, places=2)
+            self.assertAlmostEqual(res_shifted["diagnostics"]["normalizedStd"], 1.0, places=2)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

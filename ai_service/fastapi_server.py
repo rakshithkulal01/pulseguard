@@ -19,13 +19,56 @@ MI_THRESHOLD = 0.7
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_MODEL_PATH = os.path.join(CURRENT_DIR, "Best_1DCNN.keras")
 DEFAULT_EXTRACTED_DIR = os.path.join(CURRENT_DIR, "Best_1DCNN_extracted")
-DEFAULT_ZIP_PATH = os.path.join(CURRENT_DIR, "Best_1DCNN(2).keras.zip")
+DEFAULT_ZIP_PATH = os.path.join(CURRENT_DIR, "Best_1DCNN.keras.zip")
 
 FALLBACK_MODEL_PATH = os.path.abspath(os.path.join(CURRENT_DIR, "..", "Best_1DCNN.keras"))
-FALLBACK_ZIP_PATH = os.path.abspath(os.path.join(CURRENT_DIR, "..", "Best_1DCNN(2).keras.zip"))
+FALLBACK_ZIP_PATH = os.path.abspath(os.path.join(CURRENT_DIR, "..", "Best_1DCNN.keras.zip"))
 
 MODEL_FILE_PATH = os.getenv("MODEL_PATH", DEFAULT_MODEL_PATH)
 ZIP_FILE_PATH = os.getenv("ZIP_MODEL_PATH", DEFAULT_ZIP_PATH)
+
+def calculate_st_feature(norm_signal: np.ndarray, sampling_rate: int = 100) -> float:
+    """
+    Computes the ST-segment elevation/depression feature from a normalized ECG signal.
+    Measures the difference between the ST point (100ms after R-peak)
+    and the isoelectric PR baseline (120ms before R-peak).
+    Returns 0.0 (isoelectric baseline) if insufficient clean peaks are detected.
+    """
+    try:
+        min_distance = int(sampling_rate * 0.4)
+        peaks, _ = scipy.signal.find_peaks(norm_signal, height=0.8, distance=min_distance)
+        if len(peaks) < 2:
+            return 0.0
+        st_measurements = []
+        for r in peaks:
+            st_sample = r + int(0.10 * sampling_rate)
+            base_sample = r - int(0.12 * sampling_rate)
+            if 0 <= base_sample < len(norm_signal) and 0 <= st_sample < len(norm_signal):
+                st_measurements.append(float(norm_signal[st_sample] - norm_signal[base_sample]))
+        if st_measurements:
+            return float(np.median(st_measurements))
+    except Exception:
+        pass
+    return 0.0
+
+def execute_model_prediction(model_instance, ecg_tensor: np.ndarray, st_value: float = 0.0) -> float:
+    """
+    Executes model prediction adaptively handling:
+    - Multi-input models (e.g. ecg_input + st_input)
+    - Single-input models (e.g. (1, 1000, 1))
+    """
+    is_multi_input = isinstance(model_instance.input_shape, list) and len(model_instance.input_shape) > 1
+    if is_multi_input:
+        st_arr = np.array([[st_value]], dtype=np.float32)
+        try:
+            feed = {"ecg_input": ecg_tensor, "st_input": st_arr}
+            pred_output = model_instance.predict(feed, verbose=0)
+        except Exception:
+            feed = [ecg_tensor, st_arr]
+            pred_output = model_instance.predict(feed, verbose=0)
+    else:
+        pred_output = model_instance.predict(ecg_tensor, verbose=0)
+    return float(np.squeeze(pred_output).item())
 
 def load_or_extract_model():
     """
@@ -34,10 +77,11 @@ def load_or_extract_model():
     2. If not, inspects ZIP archives (without renaming/corrupting files).
     3. If the ZIP contains a .keras file inside, extracts that file.
     4. If the ZIP contains unzipped components (config.json, metadata.json, model.weights.h5),
-       extracts them into a dedicated directory and loads it.
+       copies or extracts them into a valid .keras target and loads it.
     5. Validates the model by running a dummy forward pass before returning.
     """
     import keras
+    import shutil
 
     # Check candidates for already-existing model file or directory
     candidates = [MODEL_FILE_PATH, DEFAULT_EXTRACTED_DIR, FALLBACK_MODEL_PATH]
@@ -47,14 +91,19 @@ def load_or_extract_model():
                 loaded = keras.models.load_model(candidate)
                 # Verify with a dummy forward pass
                 dummy = np.zeros((1, 1000, 1), dtype=np.float32)
-                loaded.predict(dummy, verbose=0)
+                execute_model_prediction(loaded, dummy, 0.0)
                 print(f"Loaded and verified Keras model successfully from {candidate}")
                 return loaded
             except Exception as e:
                 print(f"Could not load existing candidate {candidate}: {e}")
 
     # If not yet loaded, look for available ZIP archive
-    zip_candidates = [ZIP_FILE_PATH, FALLBACK_ZIP_PATH]
+    zip_candidates = [
+        ZIP_FILE_PATH,
+        FALLBACK_ZIP_PATH,
+        os.path.join(CURRENT_DIR, "Best_1DCNN(2).keras.zip"),
+        os.path.abspath(os.path.join(CURRENT_DIR, "..", "Best_1DCNN(2).keras.zip"))
+    ]
     chosen_zip = None
     for zc in zip_candidates:
         if os.path.exists(zc):
@@ -79,15 +128,15 @@ def load_or_extract_model():
             extracted_target = os.path.join(CURRENT_DIR, target_file)
             loaded = keras.models.load_model(extracted_target)
         else:
-            # Archive contains Keras 3 directory components (config.json, etc.)
-            print(f"Extracting Keras model directory components from {chosen_zip} to {DEFAULT_EXTRACTED_DIR}")
-            os.makedirs(DEFAULT_EXTRACTED_DIR, exist_ok=True)
-            z.extractall(DEFAULT_EXTRACTED_DIR)
-            loaded = keras.models.load_model(DEFAULT_EXTRACTED_DIR)
+            # Keras 3 zip archive (contains config.json, metadata.json, model.weights.h5)
+            # Copy to .keras file directly so Keras 3 can load it
+            print(f"Deploying Keras model archive {chosen_zip} to {MODEL_FILE_PATH}")
+            shutil.copyfile(chosen_zip, MODEL_FILE_PATH)
+            loaded = keras.models.load_model(MODEL_FILE_PATH)
 
     # Validate loaded model
     dummy = np.zeros((1, 1000, 1), dtype=np.float32)
-    loaded.predict(dummy, verbose=0)
+    execute_model_prediction(loaded, dummy, 0.0)
     print("Model validation forward pass succeeded.")
     return loaded
 
@@ -194,10 +243,10 @@ async def predict(request: ECGPredictionRequest):
     normalized = (arr - mean) / std
     input_data = normalized.reshape(1, 1000, 1)
 
-    # 5. Model forward pass
+    # 5. Extract ST feature and execute model forward pass
+    st_feature = calculate_st_feature(normalized, sampling_rate=100)
     try:
-        pred_output = model.predict(input_data, verbose=0)
-        prediction_prob = float(np.squeeze(pred_output).item())
+        prediction_prob = execute_model_prediction(model, input_data, st_feature)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -220,7 +269,7 @@ async def predict(request: ECGPredictionRequest):
 
     print(f"[ECG Inference] Raw: min={raw_min:.2f}, max={raw_max:.2f}, mean={mean:.2f}, std={std:.2f}")
     print(f"[ECG Inference] Normalized: min={norm_min:.2f}, max={norm_max:.2f}, mean={norm_mean:.4f}, std={norm_std:.4f}")
-    print(f"[ECG Inference] Model: input_shape={input_data.shape}, dtype={input_data.dtype}, probability={prediction_prob:.4f}")
+    print(f"[ECG Inference] Model: input_shape={getattr(model, 'input_shape', None)}, ST_feature={st_feature:.4f}, probability={prediction_prob:.4f}")
 
     # 7. Decision threshold: 0.7 everywhere
     is_mi = prediction_prob >= MI_THRESHOLD
@@ -260,7 +309,8 @@ async def predict(request: ECGPredictionRequest):
             "inputMean": float(round(mean, 2)),
             "inputStd": float(round(std, 2)),
             "normalizedMean": float(round(norm_mean, 4)),
-            "normalizedStd": float(round(norm_std, 4))
+            "normalizedStd": float(round(norm_std, 4)),
+            "stFeature": float(round(st_feature, 4))
         }
     }
 
